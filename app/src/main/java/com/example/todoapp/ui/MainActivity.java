@@ -1,0 +1,139 @@
+package com.example.todoapp.ui;
+
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.todoapp.R;
+import com.example.todoapp.adapter.TaskAdapter;
+import com.example.todoapp.model.Task;
+import com.example.todoapp.viewmodel.TaskViewModel;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+/**
+ * MainActivity: the single screen of the app.
+ *
+ * Responsibilities:
+ * - Set up RecyclerView + Adapter
+ * - Observe LiveData from ViewModel
+ * - Handle FAB click → open AddEditTaskActivity (add mode)
+ * - Handle adapter callbacks (edit, delete, toggle)
+ * - Handle filter chips and SearchView
+ */
+public class MainActivity extends AppCompatActivity implements TaskAdapter.OnTaskActionListener {
+
+    private TaskViewModel viewModel;
+    private TaskAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // --- ViewModel ---
+        viewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+
+        // --- RecyclerView ---
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        adapter = new TaskAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Observe task list; ListAdapter diffs and animates changes automatically
+        viewModel.tasks.observe(this, tasks -> {
+            adapter.submitList(tasks);
+        });
+
+        // --- FAB → Add new task ---
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> {
+            AddEditTaskActivity.start(this, null); // null = add mode
+        });
+
+        // --- Filter Chips ---
+        ChipGroup chipGroup = findViewById(R.id.chipGroupFilter);
+        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (checkedIds.isEmpty()) return;
+            int id = checkedIds.get(0);
+            if (id == R.id.chipAll)           viewModel.setFilter("all");
+            else if (id == R.id.chipPending)  viewModel.setFilter("pending");
+            else if (id == R.id.chipCompleted)viewModel.setFilter("completed");
+        });
+    }
+
+    // --- Options menu (SearchView lives here) ---
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search tasks…");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                viewModel.setSearchQuery(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                viewModel.setSearchQuery(newText);
+                return true;
+            }
+        });
+
+        // Clear search when SearchView is closed
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) { return true; }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                viewModel.setSearchQuery("");
+                return true;
+            }
+        });
+
+        return true;
+    }
+
+    // --- TaskAdapter.OnTaskActionListener callbacks ---
+
+    @Override
+    public void onTaskClick(Task task) {
+        // Open in edit mode by passing the task ID
+        AddEditTaskActivity.start(this, task);
+    }
+
+    @Override
+    public void onTaskDelete(Task task) {
+        // Show confirmation dialog before deleting
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Task")
+                .setMessage("Are you sure you want to delete \"" + task.getTitle() + "\"?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    viewModel.delete(task);
+                    Toast.makeText(this, "Task deleted", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    @Override
+    public void onTaskToggle(Task task, boolean completed) {
+        task.setCompleted(completed);
+        viewModel.update(task);
+    }
+}
