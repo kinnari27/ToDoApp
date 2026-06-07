@@ -54,4 +54,9 @@ dependencies {
 
     // ─── Activity KTX (viewModels() delegate) ───
     implementation("androidx.activity:activity:1.8.2")
+
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }
