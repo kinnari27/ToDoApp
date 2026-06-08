@@ -1,12 +1,12 @@
-package com.example.todoapp.repository;
+package com.mytasklistapp.repository;
 
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.todoapp.dao.TaskDao;
-import com.example.todoapp.database.TaskDatabase;
-import com.example.todoapp.model.Task;
+import com.mytasklistapp.dao.TaskDao;
+import com.mytasklistapp.database.TaskDatabase;
+import com.mytasklistapp.model.Task;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

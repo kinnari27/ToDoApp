@@ -1,4 +1,4 @@
-package com.example.todoapp.model;
+package com.mytasklistapp.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

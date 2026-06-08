@@ -1,4 +1,4 @@
-package com.example.todoapp;
+package com.mytasklistapp;
 
 import org.junit.Test;
 

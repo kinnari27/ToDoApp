@@ -1,4 +1,4 @@
-package com.example.todoapp.database;
+package com.mytasklistapp.database;
 
 import android.content.Context;
 
@@ -6,8 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.todoapp.dao.TaskDao;
-import com.example.todoapp.model.Task;
+import com.mytasklistapp.dao.TaskDao;
+import com.mytasklistapp.model.Task;
 
 /**
  * Room Database singleton.

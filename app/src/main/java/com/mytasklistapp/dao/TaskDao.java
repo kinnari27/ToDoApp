@@ -1,4 +1,4 @@
-package com.example.todoapp.dao;
+package com.mytasklistapp.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.todoapp.model.Task;
+import com.mytasklistapp.model.Task;
 
 import java.util.List;
 

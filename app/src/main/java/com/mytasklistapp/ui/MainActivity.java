@@ -1,4 +1,4 @@
-package com.example.todoapp.ui;
+package com.mytasklistapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,19 +6,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todoapp.R;
-import com.example.todoapp.adapter.TaskAdapter;
-import com.example.todoapp.model.Task;
-import com.example.todoapp.viewmodel.TaskViewModel;
+import com.mytasklistapp.R;
+import com.mytasklistapp.adapter.TaskAdapter;
+import com.mytasklistapp.model.Task;
+import com.mytasklistapp.viewmodel.TaskViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -42,9 +46,29 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnTas
     private TaskAdapter adapter;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        // Check if user is signed in. If not, redirect to LoginActivity.
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Handle window insets to prevent content from being hidden behind system bars
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         // --- Toolbar ---
         Toolbar toolbar = findViewById(R.id.toolbar);

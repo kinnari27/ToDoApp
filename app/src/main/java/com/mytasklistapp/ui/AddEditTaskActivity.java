@@ -1,4 +1,4 @@
-package com.example.todoapp.ui;
+package com.mytasklistapp.ui;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -8,13 +8,17 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.todoapp.R;
-import com.example.todoapp.model.Task;
-import com.example.todoapp.viewmodel.TaskViewModel;
+import com.mytasklistapp.R;
+import com.mytasklistapp.model.Task;
+import com.mytasklistapp.viewmodel.TaskViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -62,8 +66,16 @@ public class AddEditTaskActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_task);
+
+        // Handle window insets
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         // --- Toolbar ---
         Toolbar toolbar = findViewById(R.id.toolbar);

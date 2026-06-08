@@ -1,4 +1,4 @@
-package com.example.todoapp.viewmodel;
+package com.mytasklistapp.viewmodel;
 
 import android.app.Application;
 
@@ -8,8 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.example.todoapp.model.Task;
-import com.example.todoapp.repository.TaskRepository;
+import com.mytasklistapp.model.Task;
+import com.mytasklistapp.repository.TaskRepository;
 
 import java.util.List;
 

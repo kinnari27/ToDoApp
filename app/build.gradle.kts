@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.todoapp"
+    namespace = "com.mytasklistapp"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.example.todoapp"
+        applicationId = "com.mytasklistapp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

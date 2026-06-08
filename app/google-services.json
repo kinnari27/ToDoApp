@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "709960177434",
-    "project_id": "todotask-94586",
-    "storage_bucket": "todotask-94586.firebasestorage.app"
+    "project_number": "814517552085",
+    "project_id": "mytasklistapp",
+    "storage_bucket": "mytasklistapp.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:709960177434:android:8ad24b5871c81f9f013ea3",
+        "mobilesdk_app_id": "1:814517552085:android:1d9654306b63fd0efa335c",
         "android_client_info": {
-          "package_name": "com.example.todoapp"
+          "package_name": "com.mytasklistapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "814517552085-ustj02uub4p454p57j6c01i428552iom.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mytasklistapp",
+            "certificate_hash": "d2a77a8d06885098a0a4d78d85fcb10951e79dd9"
+          }
+        },
+        {
+          "client_id": "814517552085-7ufjmjdg61klo9kd11j01voesn65nee0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDyMFs7f2ZpzBLaCuwBUgw7aqsqho6lFrw"
+          "current_key": "AIzaSyCp728mw7TVsFgHA3ZWdp0aCFbjQ6IWsZA"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814517552085-7ufjmjdg61klo9kd11j01voesn65nee0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

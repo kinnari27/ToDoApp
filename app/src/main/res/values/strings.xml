@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My To-Do</string>
-    <!-- Replace this with your actual Web Client ID from the Firebase Console -->
-    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
-
+    <string name="app_name">To do Application</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.todoapp.adapter;
+package com.mytasklistapp.adapter;
 
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todoapp.R;
-import com.example.todoapp.model.Task;
+import com.mytasklistapp.R;
+import com.mytasklistapp.model.Task;
 
 /**
  * RecyclerView Adapter using ListAdapter + DiffUtil for efficient, animated updates.
