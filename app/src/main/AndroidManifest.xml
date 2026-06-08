@@ -12,25 +12,13 @@
         android:theme="@style/Theme.TodoApp">
 
         <activity
-            android:name=".ui.LoginActivity"
-            android:exported="true"
-            android:theme="@style/Theme.TodoApp">
+            android:name=".ui.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Main entry point -->
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true" />
-
-        <!-- Add/Edit screen (no launcher intent needed) -->
-        <activity
-            android:name=".ui.AddEditTaskActivity"
-            android:exported="false"
-            android:parentActivityName=".ui.MainActivity" />
 
     </application>
 

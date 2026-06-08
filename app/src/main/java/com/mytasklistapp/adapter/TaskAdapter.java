@@ -23,15 +23,6 @@ import com.mytasklistapp.model.Task;
  */
 public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
 
-    // Callbacks to the Activity/Fragment for item interactions
-    public interface OnTaskActionListener {
-        void onTaskClick(Task task);         // Edit task
-        void onTaskDelete(Task task);        // Delete with confirmation
-        void onTaskToggle(Task task, boolean completed); // Mark complete/incomplete
-    }
-
-    private final OnTaskActionListener listener;
-
     /**
      * DiffUtil compares items to decide what changed.
      * areItemsTheSame: are these the same task (by ID)?
@@ -50,6 +41,7 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
                     && oldItem.getDueDate().equals(newItem.getDueDate());
         }
     };
+    private final OnTaskActionListener listener;
 
     public TaskAdapter(OnTaskActionListener listener) {
         super(DIFF_CALLBACK);
@@ -69,6 +61,15 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         holder.bind(getItem(position), listener);
     }
 
+    // Callbacks to the Activity/Fragment for item interactions
+    public interface OnTaskActionListener {
+        void onTaskClick(Task task);         // Edit task
+
+        void onTaskDelete(Task task);        // Delete with confirmation
+
+        void onTaskToggle(Task task, boolean completed); // Mark complete/incomplete
+    }
+
     // --- ViewHolder ---
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -81,11 +82,11 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle       = itemView.findViewById(R.id.tvTaskTitle);
+            tvTitle = itemView.findViewById(R.id.tvTaskTitle);
             tvDescription = itemView.findViewById(R.id.tvTaskDescription);
-            tvDueDate     = itemView.findViewById(R.id.tvDueDate);
-            cbCompleted   = itemView.findViewById(R.id.cbCompleted);
-            btnDelete     = itemView.findViewById(R.id.btnDelete);
+            tvDueDate = itemView.findViewById(R.id.tvDueDate);
+            cbCompleted = itemView.findViewById(R.id.cbCompleted);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
         void bind(Task task, OnTaskActionListener listener) {

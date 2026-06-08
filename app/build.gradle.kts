@@ -59,6 +59,10 @@ dependencies {
     // ─── Activity KTX (viewModels() delegate) ───
     implementation(libs.activity)
 
+    // ─── Navigation Component ───
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+
     // ─── Firebase & Google Auth ───
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)

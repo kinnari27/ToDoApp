@@ -19,8 +19,11 @@ googleGmsGoogleServices = "4.4.4"
 credentials = "1.6.0"
 credentialsPlayServicesAuth = "1.6.0"
 googleid = "1.2.0"
+navigation = "2.8.8"
 
 [libraries]
+navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigation" }
+navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigation" }
 activity = { module = "androidx.activity:activity", version.ref = "activity" }
 appcompat-v171 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 constraintlayout-v221 = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayoutVersion" }

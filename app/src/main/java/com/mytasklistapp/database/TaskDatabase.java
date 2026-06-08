@@ -13,7 +13,7 @@ import com.mytasklistapp.model.Task;
  * Room Database singleton.
  * - version: increment when schema changes (triggers migration).
  * - exportSchema: false keeps things simple for this project.
- *
+ * <p>
  * Using a singleton prevents multiple database instances from opening simultaneously,
  * which could cause race conditions or data corruption.
  */
@@ -22,9 +22,6 @@ public abstract class TaskDatabase extends RoomDatabase {
 
     // Volatile ensures visibility across threads
     private static volatile TaskDatabase INSTANCE;
-
-    /** Returns the DAO so callers can run queries. */
-    public abstract TaskDao taskDao();
 
     /**
      * Returns the singleton database instance, creating it if necessary.
@@ -48,4 +45,9 @@ public abstract class TaskDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
+    /**
+     * Returns the DAO so callers can run queries.
+     */
+    public abstract TaskDao taskDao();
 }

@@ -18,15 +18,21 @@ import java.util.List;
 @Dao
 public interface TaskDao {
 
-    /** Insert a new task. Room auto-generates the SQL. */
+    /**
+     * Insert a new task. Room auto-generates the SQL.
+     */
     @Insert
     void insert(Task task);
 
-    /** Update an existing task (matched by primary key). */
+    /**
+     * Update an existing task (matched by primary key).
+     */
     @Update
     void update(Task task);
 
-    /** Delete a task by object reference. */
+    /**
+     * Delete a task by object reference.
+     */
     @Delete
     void delete(Task task);
 
@@ -54,6 +60,6 @@ public interface TaskDao {
      * Used by the SearchView in the toolbar.
      */
     @Query("SELECT * FROM tasks WHERE title LIKE '%' || :query || '%' " +
-           "OR description LIKE '%' || :query || '%' ORDER BY createdAt DESC")
+            "OR description LIKE '%' || :query || '%' ORDER BY createdAt DESC")
     LiveData<List<Task>> searchTasks(String query);
 }

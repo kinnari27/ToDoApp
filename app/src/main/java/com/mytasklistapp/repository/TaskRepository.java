@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 /**
  * Repository acts as the single source of truth between the ViewModel and data sources.
  * It abstracts away the Room database operations and runs them on a background thread.
- *
+ * <p>
  * Why a repository?
  * - ViewModels should NOT directly reference Android-specific classes like Context.
  * - Repository handles threading so ViewModels stay clean.

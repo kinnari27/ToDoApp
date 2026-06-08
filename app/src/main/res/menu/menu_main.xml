@@ -4,15 +4,15 @@
 
     <item
         android:id="@+id/action_search"
-        android:title="Search"
         android:icon="@drawable/ic_search"
-       app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 
     <item
         android:id="@+id/action_theme"
-        android:title="Theme"
         android:icon="@drawable/ic_theme"
+        android:title="Theme"
         app:showAsAction="never" />
 
     <item
