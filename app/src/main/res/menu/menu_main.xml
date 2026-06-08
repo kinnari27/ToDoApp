@@ -5,14 +5,20 @@
     <item
         android:id="@+id/action_search"
         android:title="Search"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="ifRoom|collapseActionView"
+        android:icon="@drawable/ic_search"
+       app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item
         android:id="@+id/action_theme"
         android:title="Theme"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@drawable/ic_theme"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="Logout"
+        app:showAsAction="never" />
+
 
 </menu>

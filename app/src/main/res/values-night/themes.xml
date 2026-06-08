@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Dark theme application theme using Material3 -->
+
     <style name="Theme.TodoApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Main primary color -->
+
+        <!-- Primary -->
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
 
-        <!-- Secondary color (Accent) -->
-        <item name="colorSecondary">@color/accent</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <!-- Secondary -->
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
 
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <!-- Background & Surface -->
+        <item name="android:windowBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+
+        <!-- Status Bar -->
+        <item name="android:statusBarColor">@color/background</item>
         <item name="android:windowLightStatusBar">false</item>
+
     </style>
 
-    <style name="Theme.TodoApp.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
+    <!-- Toolbar/AppBar Overlay -->
+    <style name="Theme.TodoApp.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/text_primary</item>
+    </style>
+
+    <!-- Popup Overlay -->
     <style name="Theme.TodoApp.PopupOverlay" parent="ThemeOverlay.Material3.Dark" />
+
 </resources>

@@ -1,10 +1,11 @@
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
     namespace = "com.example.todoapp"
-    compileSdk = 34
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.todoapp"
@@ -34,26 +35,34 @@ android {
 
 dependencies {
     // AndroidX core
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation(libs.appcompat.v171)
+    implementation(libs.core.ktx)
+    implementation(libs.constraintlayout.v221)
+    implementation(libs.credentials)
+    implementation(libs.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     // Material Design components (Chips, FAB, TextInputLayout, MaterialCardView)
-    implementation("com.google.android.material:material:1.12.0")
+    implementation(libs.material.v1140)
 
     // RecyclerView
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation(libs.recyclerview)
 
     // ─── Room (local SQLite ORM) ───
-    implementation("androidx.room:room-runtime:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")   // generates DAO implementations
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)   // generates DAO implementations
 
     // ─── Lifecycle (ViewModel + LiveData) ───
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.livedata)
 
     // ─── Activity KTX (viewModels() delegate) ───
-    implementation("androidx.activity:activity:1.8.2")
+    implementation(libs.activity)
+
+    // ─── Firebase & Google Auth ───
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.play.services.auth)
 
     // Testing
     testImplementation(libs.junit)

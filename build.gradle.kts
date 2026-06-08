@@ -1,6 +1,4 @@
-// Project-level build.gradle
-// Defines plugin versions available to all modules
-
 plugins {
-    id("com.android.application") version "8.3.0" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.google.gms.google.services) apply false
 }
