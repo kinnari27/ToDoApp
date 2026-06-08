@@ -14,13 +14,15 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:background="?attr/colorPrimary"
+        android:theme="@style/Theme.TodoApp.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="My Tasks" />
+            app:title="My Tasks"
+            app:popupTheme="@style/Theme.TodoApp.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

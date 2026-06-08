@@ -7,7 +7,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnTas
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // --- Toolbar ---
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // --- ViewModel ---
         viewModel = new ViewModelProvider(this).get(TaskViewModel.class);
@@ -107,6 +113,43 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.OnTas
         });
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_theme) {
+            showThemeDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showThemeDialog() {
+        String[] themes = {"Light", "Dark", "System Default"};
+        int checkedItem = 2; // Default to System Default
+
+        // Determine current mode
+        int mode = AppCompatDelegate.getDefaultNightMode();
+        if (mode == AppCompatDelegate.MODE_NIGHT_NO) checkedItem = 0;
+        else if (mode == AppCompatDelegate.MODE_NIGHT_YES) checkedItem = 1;
+
+        new AlertDialog.Builder(this)
+                .setTitle("Choose Theme")
+                .setSingleChoiceItems(themes, checkedItem, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            break;
+                        case 1:
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            break;
+                        case 2:
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                            break;
+                    }
+                    dialog.dismiss();
+                })
+                .show();
     }
 
     // --- TaskAdapter.OnTaskActionListener callbacks ---
