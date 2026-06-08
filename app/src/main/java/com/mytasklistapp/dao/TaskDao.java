@@ -22,7 +22,7 @@ public interface TaskDao {
      * Insert a new task. Room auto-generates the SQL.
      */
     @Insert
-    void insert(Task task);
+    long insert(Task task);
 
     /**
      * Update an existing task (matched by primary key).
@@ -42,6 +42,9 @@ public interface TaskDao {
      */
     @Query("SELECT * FROM tasks ORDER BY createdAt DESC")
     LiveData<List<Task>> getAllTasks();
+
+    @Query("SELECT * FROM tasks")
+    List<Task> getAllTasksList();
 
     /**
      * Get only COMPLETED tasks.

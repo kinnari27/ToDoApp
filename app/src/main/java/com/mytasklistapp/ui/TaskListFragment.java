@@ -1,5 +1,8 @@
 package com.mytasklistapp.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -16,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -38,10 +44,27 @@ public class TaskListFragment extends Fragment implements TaskAdapter.OnTaskActi
     private TaskViewModel viewModel;
     private TaskAdapter adapter;
 
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (!isGranted) {
+                    Toast.makeText(requireContext(), "Notifications permission denied. Reminders will not be shown.", Toast.LENGTH_LONG).show();
+                }
+            });
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        checkNotificationPermission();
+    }
+
+    private void checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
     }
 
     @Nullable
@@ -71,6 +94,9 @@ public class TaskListFragment extends Fragment implements TaskAdapter.OnTaskActi
         viewModel.tasks.observe(getViewLifecycleOwner(), tasks -> {
             adapter.submitList(tasks);
         });
+
+        // Trigger sync with Firebase on load
+        viewModel.syncWithFirebase();
 
         // --- FAB → Add new task ---
         FloatingActionButton fab = view.findViewById(R.id.fab);
@@ -187,6 +213,7 @@ public class TaskListFragment extends Fragment implements TaskAdapter.OnTaskActi
         bundle.putString("extra_task_title", task.getTitle());
         bundle.putString("extra_task_description", task.getDescription());
         bundle.putString("extra_task_due_date", task.getDueDate());
+        bundle.putString("extra_task_reminder_time", task.getReminderTime());
         bundle.putBoolean("extra_task_completed", task.isCompleted());
         bundle.putLong("extra_task_created_at", task.getCreatedAt());
         Navigation.findNavController(requireView()).navigate(R.id.action_taskList_to_addEditTask, bundle);
@@ -209,5 +236,13 @@ public class TaskListFragment extends Fragment implements TaskAdapter.OnTaskActi
     public void onTaskToggle(Task task, boolean completed) {
         task.setCompleted(completed);
         viewModel.update(task);
+    }
+
+    @Override
+    public void onNotificationToggle(Task task) {
+        task.setReminderEnabled(!task.isReminderEnabled());
+        viewModel.update(task);
+        String status = task.isReminderEnabled() ? "Reminder enabled" : "Reminder disabled";
+        Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show();
     }
 }

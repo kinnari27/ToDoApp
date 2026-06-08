@@ -29,6 +29,7 @@ appcompat-v171 = { module = "androidx.appcompat:appcompat", version.ref = "appco
 constraintlayout-v221 = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayoutVersion" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-database = { module = "com.google.firebase:firebase-database" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

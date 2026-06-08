@@ -17,7 +17,7 @@ import com.mytasklistapp.model.Task;
  * Using a singleton prevents multiple database instances from opening simultaneously,
  * which could cause race conditions or data corruption.
  */
-@Database(entities = {Task.class}, version = 1, exportSchema = false)
+@Database(entities = {Task.class}, version = 4, exportSchema = false)
 public abstract class TaskDatabase extends RoomDatabase {
 
     // Volatile ensures visibility across threads

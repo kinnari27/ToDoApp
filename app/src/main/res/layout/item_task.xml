@@ -63,6 +63,16 @@
 
         </LinearLayout>
 
+        <!-- Notification Toggle button -->
+        <ImageButton
+            android:id="@+id/btnNotificationToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Toggle reminder"
+            android:padding="8dp"
+            android:src="@drawable/ic_notifications" />
+
         <!-- Delete button on the right -->
         <ImageButton
             android:id="@+id/btnDelete"

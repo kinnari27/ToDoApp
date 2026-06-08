@@ -38,7 +38,9 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
             return oldItem.getTitle().equals(newItem.getTitle())
                     && oldItem.isCompleted() == newItem.isCompleted()
-                    && oldItem.getDueDate().equals(newItem.getDueDate());
+                    && oldItem.getDueDate().equals(newItem.getDueDate())
+                    && oldItem.getReminderTime().equals(newItem.getReminderTime())
+                    && oldItem.isReminderEnabled() == newItem.isReminderEnabled();
         }
     };
     private final OnTaskActionListener listener;
@@ -68,6 +70,8 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         void onTaskDelete(Task task);        // Delete with confirmation
 
         void onTaskToggle(Task task, boolean completed); // Mark complete/incomplete
+
+        void onNotificationToggle(Task task); // Toggle reminder enabled/disabled
     }
 
     // --- ViewHolder ---
@@ -79,6 +83,7 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         private final TextView tvDueDate;
         private final CheckBox cbCompleted;
         private final ImageButton btnDelete;
+        private final ImageButton btnNotificationToggle;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +92,7 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
             tvDueDate = itemView.findViewById(R.id.tvDueDate);
             cbCompleted = itemView.findViewById(R.id.cbCompleted);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnNotificationToggle = itemView.findViewById(R.id.btnNotificationToggle);
         }
 
         void bind(Task task, OnTaskActionListener listener) {
@@ -100,10 +106,19 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
                 tvDescription.setVisibility(View.GONE);
             }
 
-            // Show due date only if present
+            // Show due date and reminder time
+            StringBuilder dateTimeInfo = new StringBuilder();
             if (task.getDueDate() != null && !task.getDueDate().isEmpty()) {
+                dateTimeInfo.append("Due: ").append(task.getDueDate());
+            }
+            if (task.getReminderTime() != null && !task.getReminderTime().isEmpty()) {
+                if (dateTimeInfo.length() > 0) dateTimeInfo.append(" at ");
+                dateTimeInfo.append(task.getReminderTime());
+            }
+
+            if (dateTimeInfo.length() > 0) {
                 tvDueDate.setVisibility(View.VISIBLE);
-                tvDueDate.setText("Due: " + task.getDueDate());
+                tvDueDate.setText(dateTimeInfo.toString());
             } else {
                 tvDueDate.setVisibility(View.GONE);
             }
@@ -117,6 +132,15 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
                 tvTitle.setAlpha(1.0f);
             }
 
+            // Update notification icon based on state
+            if (task.isReminderEnabled()) {
+                btnNotificationToggle.setImageResource(R.drawable.ic_notifications);
+                btnNotificationToggle.setAlpha(1.0f);
+            } else {
+                btnNotificationToggle.setImageResource(R.drawable.ic_notifications_off);
+                btnNotificationToggle.setAlpha(0.5f);
+            }
+
             // Temporarily remove listener before setting state to avoid triggering callback
             cbCompleted.setOnCheckedChangeListener(null);
             cbCompleted.setChecked(task.isCompleted());
@@ -128,6 +152,9 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
 
             // Click delete icon to trigger confirmation dialog
             btnDelete.setOnClickListener(v -> listener.onTaskDelete(task));
+
+            // Click notification icon to toggle reminder
+            btnNotificationToggle.setOnClickListener(v -> listener.onNotificationToggle(task));
         }
     }
 }

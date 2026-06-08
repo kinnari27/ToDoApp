@@ -65,6 +65,10 @@ public class TaskViewModel extends AndroidViewModel {
         repository.delete(task);
     }
 
+    public void syncWithFirebase() {
+        repository.syncAllLocalTasksToFirebase();
+    }
+
     /**
      * Switch between "all", "completed", "pending" filter tabs.
      */
