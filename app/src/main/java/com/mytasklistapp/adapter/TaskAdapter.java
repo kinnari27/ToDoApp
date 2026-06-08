@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mytasklistapp.R;
 import com.mytasklistapp.model.Task;
 
+import java.util.Objects;
+
 /**
  * RecyclerView Adapter using ListAdapter + DiffUtil for efficient, animated updates.
  * ListAdapter automatically calculates the diff between old and new lists and
@@ -36,11 +38,14 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
 
         @Override
         public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            return oldItem.getTitle().equals(newItem.getTitle())
-                    && oldItem.isCompleted() == newItem.isCompleted()
-                    && oldItem.getDueDate().equals(newItem.getDueDate())
-                    && oldItem.getReminderTime().equals(newItem.getReminderTime())
-                    && oldItem.isReminderEnabled() == newItem.isReminderEnabled();
+            // Check booleans first as they are fastest
+            if (oldItem.isCompleted() != newItem.isCompleted()) return false;
+            if (oldItem.isReminderEnabled() != newItem.isReminderEnabled()) return false;
+            
+            // Check strings with null safety
+            if (!Objects.equals(oldItem.getTitle(), newItem.getTitle())) return false;
+            if (!Objects.equals(oldItem.getDueDate(), newItem.getDueDate())) return false;
+            return Objects.equals(oldItem.getReminderTime(), newItem.getReminderTime());
         }
     };
     private final OnTaskActionListener listener;
@@ -135,13 +140,13 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
             // Update notification icon based on state
             if (task.isReminderEnabled()) {
                 btnNotificationToggle.setImageResource(R.drawable.ic_notifications);
-                btnNotificationToggle.setAlpha(1.0f);
+                btnNotificationToggle.setImageAlpha(255); // 1.0f
             } else {
                 btnNotificationToggle.setImageResource(R.drawable.ic_notifications_off);
-                btnNotificationToggle.setAlpha(0.5f);
+                btnNotificationToggle.setImageAlpha(128); // 0.5f
             }
 
-            // Temporarily remove listener before setting state to avoid triggering callback
+            // Temporarily remove listener before setting state
             cbCompleted.setOnCheckedChangeListener(null);
             cbCompleted.setChecked(task.isCompleted());
             cbCompleted.setOnCheckedChangeListener((btn, isChecked) ->
@@ -154,7 +159,9 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
             btnDelete.setOnClickListener(v -> listener.onTaskDelete(task));
 
             // Click notification icon to toggle reminder
-            btnNotificationToggle.setOnClickListener(v -> listener.onNotificationToggle(task));
+            btnNotificationToggle.setOnClickListener(v -> {
+                listener.onNotificationToggle(task);
+            });
         }
     }
 }

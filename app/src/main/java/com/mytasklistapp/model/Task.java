@@ -111,4 +111,15 @@ public class Task {
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
     }
+
+    /**
+     * Creates a deep copy of the task.
+     */
+    public Task copy() {
+        Task copy = new Task(title, description, dueDate, reminderTime, completed, createdAt);
+        copy.setId(id);
+        copy.setFirebaseId(firebaseId);
+        copy.setReminderEnabled(reminderEnabled);
+        return copy;
+    }
 }

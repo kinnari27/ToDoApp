@@ -234,15 +234,18 @@ public class TaskListFragment extends Fragment implements TaskAdapter.OnTaskActi
 
     @Override
     public void onTaskToggle(Task task, boolean completed) {
-        task.setCompleted(completed);
-        viewModel.update(task);
+        Task updatedTask = task.copy();
+        updatedTask.setCompleted(completed);
+        viewModel.update(updatedTask);
     }
 
     @Override
     public void onNotificationToggle(Task task) {
-        task.setReminderEnabled(!task.isReminderEnabled());
-        viewModel.update(task);
-        String status = task.isReminderEnabled() ? "Reminder enabled" : "Reminder disabled";
+        Task updatedTask = task.copy();
+        updatedTask.setReminderEnabled(!task.isReminderEnabled());
+        
+        viewModel.update(updatedTask);
+        String status = updatedTask.isReminderEnabled() ? "Reminder enabled" : "Reminder disabled";
         Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show();
     }
 }
