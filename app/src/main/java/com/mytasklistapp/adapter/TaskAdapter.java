@@ -1,6 +1,7 @@
 package com.mytasklistapp.adapter;
 
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -140,10 +142,12 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
             // Update notification icon based on state
             if (task.isReminderEnabled()) {
                 btnNotificationToggle.setImageResource(R.drawable.ic_notifications);
-                btnNotificationToggle.setImageAlpha(255); // 1.0f
+                btnNotificationToggle.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.primary), PorterDuff.Mode.SRC_IN);
+                btnNotificationToggle.setImageAlpha(255);
             } else {
                 btnNotificationToggle.setImageResource(R.drawable.ic_notifications_off);
-                btnNotificationToggle.setImageAlpha(128); // 0.5f
+                btnNotificationToggle.setColorFilter(ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray), PorterDuff.Mode.SRC_IN);
+                btnNotificationToggle.setImageAlpha(128);
             }
 
             // Temporarily remove listener before setting state
@@ -159,9 +163,7 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
             btnDelete.setOnClickListener(v -> listener.onTaskDelete(task));
 
             // Click notification icon to toggle reminder
-            btnNotificationToggle.setOnClickListener(v -> {
-                listener.onNotificationToggle(task);
-            });
+            btnNotificationToggle.setOnClickListener(v -> listener.onNotificationToggle(task));
         }
     }
 }
